@@ -1,0 +1,8 @@
+# target/
+*.jar
+*.class
+*.log
+node_modules/
+.env
+.idea/
+.vscode/
