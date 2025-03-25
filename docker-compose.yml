@@ -34,6 +34,8 @@ services:
       DB_PASSWORD: SuperAdmin123--
     env_file:
       - .env
+    volumes:
+      - ./.env:/app/.env
 
 volumes:
   mysql_data:
