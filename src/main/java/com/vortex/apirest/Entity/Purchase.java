@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Getter
 @Setter
@@ -17,6 +19,7 @@ public class Purchase {
     private String userEmail; // Relación con el usuario por email
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<PurchaseItem> items; // Lista de películas compradas
 
     private Double totalAmount; // Gran total de la compra

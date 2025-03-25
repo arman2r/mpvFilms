@@ -1,5 +1,7 @@
 package com.vortex.apirest.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,7 @@ public class PurchaseItem {
 
     @ManyToOne
     @JoinColumn(name = "purchase_id", nullable = false)
+    @JsonBackReference
     private Purchase purchase;
 
     public void calculateTotalPrice() {

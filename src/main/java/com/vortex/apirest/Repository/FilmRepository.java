@@ -23,7 +23,7 @@ public interface FilmRepository extends JpaRepository<FilmEntity, Integer> {
     List<FilmEntity> findByAvailableTrue();
 
     // Consulta personalizada con JPQL
-    @Query("SELECT f FROM FilmEntity f WHERE f.price > :price")
+    @Query("SELECT f FROM FilmEntity f WHERE f.price < :price")
     List<FilmEntity> findFilmsByPriceGreaterThan(@Param("price") Double price);
 
 }

@@ -21,28 +21,55 @@ public class EmailService {
     /**
      * Método para enviar un correo con SendGrid.
      * 
-     * @param toEmail  Destinatario del correo
-     * @param subject  Asunto del correo
-     * @param htmlBody Cuerpo del correo en formato HTML
+     * @param toEmail      Destinatario del correo
+     * @param subjectEmail Asunto del correo
+     * @param htmlBody     Cuerpo del correo en formato HTML
      */
-    public void sendEmail(String toEmail, String subject, String htmlBody) {
-        Email from = new Email("noreply@tu-dominio.com"); // Cambiar por tu dominio verificado
+    public void sendEmail(String toEmail, String subjectEmail, String htmlBody) {
+
+        Email from = new Email("arman.2.r@gmail.com");
+        String subject = "Sending with SendGrid is Fun";
         Email to = new Email(toEmail);
-        Content content = new Content("text/html", htmlBody);
+        Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
         Mail mail = new Mail(from, subject, to, content);
 
         SendGrid sg = new SendGrid(sendGridApiKey);
         Request request = new Request();
-
         try {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sg.api(request);
-
-            System.out.println("Correo enviado con código: " + response.getStatusCode());
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
         } catch (IOException ex) {
-            throw new RuntimeException("Error al enviar correo con SendGrid: " + ex.getMessage());
+            System.err.println("Error al enviar correo: " + ex.getMessage());
+            ex.printStackTrace(); // Imprime el error en logs
         }
+
+        /*
+         * Email from = new Email("arman.2.r@gmail.com");
+         * Email to = new Email(toEmail);
+         * Content content = new Content("text/html", htmlBody);
+         * Mail mail = new Mail(from, subject, to, content);
+         * 
+         * SendGrid sg = new SendGrid(sendGridApiKey);
+         * Request request = new Request();
+         * 
+         * try {
+         * request.setMethod(Method.POST);
+         * request.setEndpoint("mail/send");
+         * request.setBody(mail.build());
+         * Response response = sg.api(request);
+         * 
+         * System.out.println("Correo enviado con código: " + response.getStatusCode());
+         * System.out.println(response.getBody());
+         * System.out.println(response.getHeaders());
+         * } catch (IOException ex) {
+         * throw new RuntimeException("Error al enviar correo con SendGrid: " +
+         * ex.getMessage());
+         * }
+         */
     }
 }

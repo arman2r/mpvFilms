@@ -39,16 +39,16 @@ public class FilmController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FilmEntity> updateFilm(
-        @PathVariable Integer id,
-        @RequestBody FilmRequest filmRequest) {
-    try {
-        log.info("Updating film with ID: {}", id);
-        return ResponseEntity.ok(filmService.updateFilm(id, filmRequest));
-    } catch (Exception e) {
-        log.error("Error al actualizar la película", e);
-        return ResponseEntity.internalServerError().body(null);
+            @PathVariable Integer id,
+            @RequestBody FilmRequest filmRequest) {
+        try {
+            log.info("Updating film with ID: {}", id);
+            return ResponseEntity.ok(filmService.updateFilm(id, filmRequest));
+        } catch (Exception e) {
+            log.error("Error al actualizar la película", e);
+            return ResponseEntity.internalServerError().body(null);
+        }
     }
-}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteFilm(@PathVariable Integer id) {
@@ -68,7 +68,8 @@ public class FilmController {
 
     @GetMapping("/search")
     public ResponseEntity<List<FilmEntity>> searchFilms(@RequestParam String title) {
-        return ResponseEntity.ok(filmService.searchFilmsByTitle(title));
+        List<FilmEntity> films = filmService.searchFilmsByTitle(title);
+        return ResponseEntity.ok(films);
     }
 
     @GetMapping("/available")

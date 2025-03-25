@@ -2,6 +2,7 @@ package com.vortex.apirest.service;
 
 import com.vortex.apirest.ConfigProject.JwtUtil;
 import com.vortex.apirest.DTO.UserDTO;
+import com.vortex.apirest.DTO.UserResponseDTO;
 import com.vortex.apirest.Entity.User;
 import com.vortex.apirest.Repository.UserRepository;
 import com.vortex.apirest.Entity.Role;
@@ -11,7 +12,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -21,14 +25,15 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     @Autowired
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder; 
+
 
     public UserService(JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.jwtUtil = jwtUtil; 
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(UserDTO userDTO) {
+    public UserResponseDTO registerUser(UserDTO userDTO) {
         User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -40,7 +45,9 @@ public class UserService {
         if (userDTO.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         }
-        return userRepository.save(user);
+
+        userRepository.save(user);
+        return new UserResponseDTO(user);
     }
 
     public List<User> listUsersWithRoleUser() {
@@ -78,5 +85,26 @@ public class UserService {
         }
     
         return jwtUtil.generateToken(user.getEmail());
+    }
+
+    public UserDTO getUserByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+
+        if (userOptional.isEmpty()) {
+            return null; // Si el usuario no existe, devolvemos null
+        }
+
+        User user = userOptional.get();
+
+        // Crear manualmente el UserDTO con los valores de User
+        UserDTO userDTO = new UserDTO();
+        userDTO.setAvailable(user.getAvailable());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setRol(user.getRol());
+
+        return userDTO;
     }
 }

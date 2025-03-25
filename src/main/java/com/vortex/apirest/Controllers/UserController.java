@@ -1,6 +1,7 @@
 package com.vortex.apirest.Controllers;
 
 import com.vortex.apirest.DTO.UserDTO;
+import com.vortex.apirest.DTO.UserResponseDTO;
 import com.vortex.apirest.Entity.User;
 import com.vortex.apirest.service.UserService;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,7 +28,7 @@ public class UserController {
 
     // Registrar un nuevo usuario
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserResponseDTO> registerUser(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.registerUser(userDTO));
     }
 
@@ -51,5 +53,16 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/getByEmail")
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
+        UserDTO userResponse = userService.getUserByEmail(email);
+
+        if (userResponse == null) {
+            return ResponseEntity.status(404).body("Usuario no encontrado");
+        }
+
+        return ResponseEntity.ok(userResponse);
     }
 }

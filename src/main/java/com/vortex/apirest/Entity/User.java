@@ -46,4 +46,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role rol; // Enum para los roles: USER, ADMIN
+
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 }

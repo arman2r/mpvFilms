@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PurchaseDTO {
+    private Integer id;
     private String userEmail;
     private List<PurchaseItemDTO> items;
     private Double totalAmount;
