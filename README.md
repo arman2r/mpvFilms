@@ -7,6 +7,44 @@
 
 ---
 
+## Pasos para Levantar el Backend con Docker
+
+### Prerrequisitos
+1. Tener instalado [Docker](https://www.docker.com/) y [Docker Compose](https://docs.docker.com/compose/).
+2. Asegurarse de que los puertos necesarios (por ejemplo, `8080` para el backend y `3306` para MySQL) estén disponibles.
+
+### Configuración
+1. Crear un archivo `docker-compose.yml` en la raíz del proyecto si no existe. Este archivo debe contener la configuración para levantar el backend y la base de datos MySQL.
+2. Asegúrate de que el archivo `application.properties` o `application.yml` esté configurado para conectarse a la base de datos MySQL del contenedor.
+
+### Comandos para Levantar el Backend
+1. Compila el proyecto con maven y asegurate de que se genere el .jar en la caperta target
+      bash
+   mvn clean package -DskipTests
+
+2. Construir la imagen de Docker para el backend:
+   ```bash
+   docker-compose up --build
+   ```
+3. Levantar los servicios con Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
+   Esto levantará tanto el backend como la base de datos MySQL.
+
+4. Verificar que los contenedores estén corriendo:
+   ```bash
+   docker ps
+   ```
+
+### Detener los Servicios
+Para detener los servicios, utiliza el siguiente comando:
+```bash
+docker-compose down
+```
+
+---
+
 ## 1. Usuarios
 
 ### Registrar Usuario
