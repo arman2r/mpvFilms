@@ -19,9 +19,9 @@
 
 ### Comandos para Levantar el Backend
 1. Compila el proyecto con maven y asegurate de que se genere el .jar en la caperta target
-      bash
+   ```bash
    mvn clean package -DskipTests
-
+   ```
 2. Construir la imagen de Docker para el backend:
    ```bash
    docker-compose up --build
